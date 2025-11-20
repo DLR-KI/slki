@@ -1,0 +1,63 @@
+# SPDX-FileCopyrightText: 2025 German Aerospace Center (DLR)
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Update CITATION.cff via web application (GUI):
+# https://citation-file-format.github.io/cff-initializer-javascript/#/update
+#
+cff-version: 1.2.0
+title: slki
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file. Add your own description here.
+type: software
+authors:
+  - given-names: Florian
+    family-names: Heinrich
+    email: florian.heinrich@dlr.de
+    affiliation: German Aerospace Center (DLR)
+    orcid: 'https://orcid.org/0009-0007-0792-7908'
+  - given-names: Markus
+    family-names: Lange
+    email: markus.lange@dlr.de
+    affiliation: German Aerospace Center (DLR)
+    orcid: 'https://orcid.org/0000-0001-7198-2871'
+  - given-names: Tamon
+    family-names: Nakano
+    email: tamon.nakano@dlr.de
+    affiliation: German Aerospace Center (DLR)
+    orcid: 'https://orcid.org/0009-0005-7101-4826'
+  - given-names: Tobias
+    family-names: Petrausch
+    email: tobias.petrausch@rub.de
+    affiliation: German Aerospace Center (DLR)
+    orcid: 'https://orcid.org/0009-0006-1054-0360'
+  - name: German Aerospace Center (DLR)
+    address: Linder
+    city: Cologne
+    post-code: '51147'
+    region: NRW
+    alias: DLR
+    website: 'https://www.dlr.de/en'
+    tel: '+49 2203 6010'
+repository-code: 'https://dlr-ki.github.io/slki'
+url: 'https://github.com/DLR-KI/slki'
+abstract: >-
+  SLKI (Second Level KI in Weichen) aims to improve the security and
+  reliability of Germany's rail network by harnessing the potential of fixed
+  acceleration sensor data at train switches.
+
+  One of the main challenges is to clean and preprocess these noisy time-series
+  data to obtain high-quality and reliable train signal data.
+
+  Based on these cleaned signal data it is then possible to provide AI-driven
+  approaches to classify train types, track and predict train speeds, uncover
+  potential anomalies.
+keywords:
+  - dlr
+  - machine learning
+  - time-series
+  - public transport
+  - train
+# commit: 7c84121c656b3e9d66b074dc2f91d9c6f14202e8 (commit ID from the release commit)
+# version: 0.1.0
+# date-released: '1997-01-01'

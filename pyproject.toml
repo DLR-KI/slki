@@ -1,0 +1,337 @@
+# SPDX-FileCopyrightText: 2025 German Aerospace Center (DLR)
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+[project]
+# This is the name of your project. The first time you publish this
+# package, this name will be registered for you. It will determine how
+# users can install this project, e.g.:
+#
+# $ pip install slki
+#
+# And where it will live on PyPI: https://pypi.org/project/slki/
+#
+# There are some restrictions on what makes a valid project name
+# specification here:
+# https://packaging.python.org/specifications/core-metadata/#name
+name = "slki"  # Required
+
+# Versions should comply with PEP 440:
+# https://www.python.org/dev/peps/pep-0440/
+#
+# For a discussion on single-sourcing the version, see
+# https://packaging.python.org/guides/single-sourcing-package-version/
+version = "1.0.0"  # Required
+
+# This is a one-line description or tagline of what your project does. This
+# corresponds to the "Summary" metadata field:
+# https://packaging.python.org/specifications/core-metadata/#summary
+description = "Second Level KI in Weichen"  # Optional
+
+# This is an optional longer description of your project that represents
+# the body of text which users will see when they visit PyPI.
+#
+# Often, this is the same as your README, so you can just read it in from
+# that file directly (as we have already done above)
+#
+# This field corresponds to the "Description" metadata field:
+# https://packaging.python.org/specifications/core-metadata/#description-optional
+readme = "README.md" # Optional
+
+# Specify which Python versions you support. In contrast to the
+# 'Programming Language' classifiers above, 'pip install' will check this
+# and refuse to install the project if the version does not match. See
+# https://packaging.python.org/guides/distributing-packages-using-setuptools/#python-requires
+requires-python = ">=3.10"
+
+# This is either text indicating the license for the distribution, or a file
+# that contains the license
+# https://packaging.python.org/en/latest/specifications/core-metadata/#license
+license = {file = "LICENSES/GPL-3.0-or-later.txt"}
+
+# This field adds keywords for your project which will appear on the
+# project page. What does your project relate to?
+#
+# Note that this is a list of additional keywords, separated
+# by commas, to be used to assist searching for the distribution in a
+# larger catalog.
+keywords = ["dlr", "machine learning", "time-series", "public transport", "train"]  # Optional
+
+# This should be your name or the name of the organization who originally
+# authored the project, and a valid email address corresponding to the name
+# listed.
+authors = [ # Optional
+  {name="Florian Heinrich", email="florian.heinrich@dlr.de"},
+  {name="Markus Lange", email="markus.lange@dlr.de"},
+  {name="Tamon Nakano", email="tamon.nakano@dlr.de"},
+  {name="Tobias Petrausch", email="tobias.petrausch@rub.de"},
+]
+
+# This should be your name or the names of the organization who currently
+# maintains the project, and a valid email address corresponding to the name
+# listed.
+maintainers = [ # Optional
+  # {name="Jane Doe", email="jane.doe@example.com"}
+]
+
+# Classifiers help users find your project by categorizing it.
+#
+# For a list of valid classifiers, see https://pypi.org/classifiers/
+classifiers = [  # Optional
+  # How mature is this project? Common values are
+  #   3 - Alpha
+  #   4 - Beta
+  #   5 - Production/Stable
+  "Development Status :: 4 - Beta",
+
+  # Indicate who your project is intended for
+  "Intended Audience :: Science/Research",
+  "Topic :: Scientific/Engineering",
+  "Operating System :: OS Independent",
+
+  # Pick your license as you wish
+  "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+
+  # Specify the Python versions you support here. In particular, ensure
+  # that you indicate you support Python 3. These classifiers are *not*
+  # checked by "pip install". See instead "python_requires" below.
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3 :: Only",
+]
+
+# This field lists other packages that your project depends on to run.
+# Any package you put here will be installed by pip when your project is
+# installed, so they must be valid existing projects.
+#
+# For an analysis of this field vs pip's requirements files see:
+# https://packaging.python.org/discussions/install-requires-vs-requirements/
+dependencies = [ # Optional
+  "dlr-logging @ git+https://github.com/DLR-KI/fl-logging-base.git@4ad4ee503dc17182713d0d1b8721c8fc70442c4e",
+  "h5py",
+  "matplotlib",
+  "noisereduce",
+  "numpy",
+  "pandas",
+  "scipy",
+  "tqdm",
+  "tslearn",
+  "tsmoothie",
+]
+
+# List additional groups of dependencies here (e.g. development
+# dependencies). Users will be able to install these using the "extras"
+# syntax, for example:
+#
+#   $ pip install -e ".[all]"
+#
+# Similar to `dependencies` above, these must be valid existing
+# projects.
+[project.optional-dependencies] # Optional
+torch = [
+  "torch",
+]
+notebooks = [
+  "ipykernel",
+  "ipywidgets",
+  "keras>=3.0",
+  "mcfly>=4.1.0",
+  "tabulate",
+  "tensorflow[and-cuda]>=2.0",
+]
+dev = [
+  "ViTables",
+  "pre-commit>=3.5.0",
+  "reuse>=4.0.0",
+]
+test = [
+  "black",
+  "coverage",
+  "licensecheck",
+  "mypy",
+  "ruff",
+  "shellcheck-py",
+  "tox",
+]
+stubs = [
+  # "h5py_stubs",  # requires requires numpy<2.0.0 ??
+  "pandas-stubs",
+  "scipy-stubs",
+  "types-setuptools",
+  "types-tabulate",
+  "types-tqdm",
+]
+doc = [
+  "mkdocs-material",
+  "mkdocs-api-autonav",  # includes mkdocstrings-python
+  "mkdocs-minify-plugin",
+]
+all = ["slki[torch,notebooks,dev,test,stubs,doc]"]
+
+# List URLs that are relevant to your project
+#
+# This field corresponds to the "Project-URL" and "Home-Page" metadata fields:
+# https://packaging.python.org/specifications/core-metadata/#project-url-multiple-use
+# https://packaging.python.org/specifications/core-metadata/#home-page-optional
+#
+# Examples listed include a pattern for specifying where the package tracks
+# issues, where the source is hosted, where to say thanks to the package
+# maintainers, and where to support the project financially. The key is
+# what's used to render the link text on PyPI.
+[project.urls]  # Optional
+"Homepage" = "https://github.com/DLR-KI/slki"
+"Bug Tracker" = "https://github.com/DLR-KI/slki/issues"
+#"Changelog" = ""https://github.com/DLR-KI/slki/blob/main/CHANGELOG.md"
+#"Funding" = "https://donate.pypi.org"
+#"Say Thanks!" = "http://saythanks.io/to/example"
+"Source" = "https://github.com/DLR-KI/slki"
+
+# The following would provide a command line executable called `slki`
+# which executes the function `main` inside `__main__.py` from this package when invoked.
+[project.scripts]  # Optional
+slki = "slki.__main__:main"
+
+# This is configuration specific to the `setuptools` build backend.
+# If you are using a different build backend, you will need to change this.
+[tool.setuptools]
+# If there are data files included in your packages that need to be
+# installed, specify them here.
+include-package-data = true
+license-files = ["LICENSE.md", "LICENSES/*.txt"]
+
+[tool.setuptools.packages.find]
+include = ["slki*"]
+namespaces = false
+
+[tool.setuptools.package-data]
+slki = ["py.typed"]
+
+[build-system]
+# These are the assumed default build requirements from pip:
+# https://pip.pypa.io/en/stable/reference/pip/#pep-517-and-518-support
+requires = ["setuptools>=64.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+#######################################################################################################################
+
+# licensecheck
+# https://github.com/FHPythonUtils/LicenseCheck/blob/master/README.md
+
+[tool.licensecheck]
+using = "PEP631"
+#using = "PEP631:dev;test;stubs;doc"
+zero = true
+
+#######################################################################################################################
+
+# ruff
+# https://docs.astral.sh/ruff/settings/
+
+[tool.ruff]
+line-length = 120
+extend-exclude = [
+  ".build",
+  "*.egg-info",
+  "__pycache__",
+  "Interactive-1.interactive",
+]
+
+[tool.ruff.lint]
+extend-select = ["B", "D", "E", "I", "UP", "Q"]
+extend-ignore = ["ANN003", "D100", "D104", "D212", "D418", "S101"]
+# or be more strict:
+# select = ["ALL"]
+# extend-ignore = [
+#   "PLR", "T", "TRY",
+#   "ANN003", "D212", "D418", "S101",
+# ]
+
+[tool.ruff.lint.isort]
+# https://docs.astral.sh/ruff/settings/#lintisort
+force-sort-within-sections = true
+lines-after-imports = 2
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/test_*.py" = ["D"]
+"notebooks/**/*.ipynb" = ["D"]
+
+#######################################################################################################################
+
+# mypy
+# https://mypy.readthedocs.io/en/stable/config_file.html
+
+[tool.mypy]
+# Global options
+exclude = ".build"  # https://mypy.readthedocs.io/en/stable/config_file.html#confval-exclude
+no_implicit_optional = true
+show_error_codes = true
+#warn_return_any = true
+#warn_unused_configs = true
+#disallow_untyped_defs = true
+
+# Per-module options
+
+# Ignore missing imports (missing stubs or py.typed)
+[[tool.mypy.overrides]]
+module = [
+  "h5py.*",
+  "noisereduce.*",
+  "setuptools.*",
+  "sklearn.*",
+  "tslearn.*",
+  "tsmoothie.smoother.*",
+]
+ignore_missing_imports = true
+
+#######################################################################################################################
+
+# coverage
+# https://coverage.readthedocs.io/en/latest/config.html
+
+[tool.coverage.run]
+branch = true
+source = "skli"
+
+[tool.coverage.report]
+# Regexes for lines to exclude from consideration
+exclude_lines = [
+  # Have to re-enable the standard pragma
+  "pragma: no cover",
+  "@overload",
+
+  # Don't complain about missing debug-only code:
+  "def __repr__",
+  "if self\\.debug",
+
+  # Don't complain if tests don't hit defensive assertion code:
+  "raise AssertionError",
+  "raise NotImplementedError",
+
+  # Don't complain if non-runnable code isn't run:
+  "if 0:",
+  "if Flase:",
+  "if __name__ == .__main__.:",
+
+  # Don't complain about abstract methods, they aren't run:
+  "@(abc\\.)?abstractmethod",
+]
+
+ignore_errors = true
+skip_empty = true
+
+[tool.coverage.html]
+title = "Coverage report for SLKI"
+
+#######################################################################################################################
+
+# pytest
+# https://docs.pytest.org/en/latest
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"

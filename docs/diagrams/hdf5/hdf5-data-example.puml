@@ -1,0 +1,326 @@
+' SPDX-FileCopyrightText: 2025 German Aerospace Center (DLR)
+' SPDX-License-Identifier: CC-BY-NC-4.0
+'
+@startmindmap HDF5 database structure data example
+
+title HDF5 database structure data example
+
+
+'==============================================================================
+' style
+'=======
+
+<style>
+node {
+  BackgroundColor white
+  Font monospaced
+  FontColor gray
+  FontSize 12
+  LineThickness 1.0
+  RoundCorner 0
+
+  .frameless {
+    LineThickness 0
+    LineStyle 0
+  }
+}
+
+rootNode {
+  BackgroundColor lightgray
+  Font normal
+  FontColor black
+  FontSize 16
+  FontStyle bold
+}
+</style>
+
+
+'==============================================================================
+' functions
+'===========
+
+!function $title()
+  !return "<color: black><size:14><b><font:normal>"
+!endfunction
+
+
+'==============================================================================
+' diagram
+'=========
+
+* HDF5
+
+'==========================================================
+' su_data
+'===================
+
+** $title()su_data
+
+***: $title()359779080753946
+----
+exact_position_pm = "unknown"
+exact_position_se = "unknown"
+exact_position_sh = "unknown"
+exact_position_sm = "unknown"
+installation_date = "unknown"
+mounting_pm = "unknown"
+mounting_se = "unknown"
+mounting_sh = "unknown"
+mounting_sm = "unknown"
+placement = "points"
+position_sh = "unknown"
+su_geocoordinate_system = "unknown"
+su_latitude = 48.5227841
+su_longitude = 9.9468857;
+
+****: $title()20240516T071250Z
+----
+imei = 359779080753946;
+
+*****: $title()su_acceleration_data
+----
+su_seq_end = "2024-05-16T07:14:50.461493Z"
+su_seq_start = "2024-05-16T07:12:50.415705Z";
+
+******: $title()adxl373-sh
+----
+bit = 12
+counts_to_g_transform = np.array([0.012207, 0.012207, 0.012207])
+includes_gravity = 0
+is_analog = 0
+model = "adxl373"
+options = dict{
+  "wakeup threshold" = 20
+}
+qlv_transform = np.array([
+  [8.74566e-01, 0.00000e+00, 4.84907e-01],
+  [7.30000e-04, 9.99999e-01, -1.31700e-03],
+  [-4.84906e-01, 1.50600e-03, 8.74565e-01]
+])
+range_in_g = 400
+sample_rate_in_hz = 5648.952834
+seq_end = "2024-05-16T07:14:50.461493Z"
+seq_start = "2024-05-16T07:12:50.415705Z";
+
+******: $title()adxl373-sm
+----
+bit = 12
+counts_to_g_transform = np.array([0.012207, 0.012207, 0.012207])
+includes_gravity = 0
+is_analog = 0
+model = "adxl373"
+options = dict{
+  "wakeup threshold" = 20
+}
+qlv_transform = np.array([
+  [0.820242, 0., -0.572016],
+  [0.281322, 0.870704, 0.403401],
+  [0.498057, -0.491808, 0.714188]
+])
+range_in_g = 400
+sample_rate_in_hz = 5970.030319
+seq_end = "2024-05-16T07:14:50.461493Z"
+seq_start = "2024-05-16T07:12:50.415705Z";
+
+******: $title()kionix-sh
+----
+bit = 16
+counts_to_g_transform = np.array([0.001953, 0.001953, 0.001953])
+includes_gravity = 0
+is_analog = 0
+model = "kx134-1211"
+options = dict{
+  "wakeup threshold" = 0
+  "wakeup odr" = "100.000000 Hz"
+  "wakeup count" = 1
+}
+qlv_transform = np.array([
+  [0.991963, 0., -0.126528],
+  [0.014332, 0.993564, 0.11236],
+  [0.125713, -0.11327, 0.985579]
+])
+range_in_g = 64
+sample_rate_in_hz = 13004.37119
+seq_end = "2024-05-16T07:14:50.461493Z"
+seq_start = "2024-05-16T07:12:50.415705Z";
+
+******: $title()kionix-sm
+----
+bit = 16
+counts_to_g_transform = np.array([0.001953, 0.001953, 0.001953])
+includes_gravity = 0
+is_analog = 0
+model = "kx134-1211"
+options = dict{
+  "wakeup threshold" = 0.8
+  "wakeup odr" = "100.000000 Hz"
+  "wakeup count" = 1
+}
+qlv_transform = np.array([
+  [0.994989, 0., -0.099988],
+  [-0.001379, 0.999905, -0.013726],
+  [0.099978, 0.013795, 0.994894]
+])
+range_in_g = 64
+sample_rate_in_hz = 13119.460608
+seq_end = "2024-05-16T07:14:50.461493Z"
+seq_start = "2024-05-16T07:12:50.415705Z";
+
+***** $title()su_humidity_data
+
+******: $title()hdc2021-sm
+----
+model = "hdc2021"
+options = dict{}
+unit = "percent";
+
+***** $title()su_temperature_data
+
+******: $title()ad7814-sh
+----
+model = "ad7814"
+options = dict{}
+unit = "celsius";
+
+******: $title()hdc2021-sm
+----
+model = "hdc2021"
+options = dict{}
+unit = "celsius";
+
+**** $title()<math>$vdots</math><<frameless>>
+
+***: $title()359779080941426
+----
+<math>$vdots</math>;
+
+**** $title()<math>$vdots</math><<frameless>>
+
+
+'==========================================================
+' switch_list_infos
+'===================
+
+** $title()switch_list_infos
+
+***: $title()switch_list_info_19700101
+----
+"ALTER IN JAHREN" = "14"
+BAUFORM = "Dr S2"
+BEFESTIGUNG = "W - Befestigung"
+BWK = "5"
+GERADE_BOGENWEICHE = "Bogenweiche, und zwar einfache Innenboge"
+HERZSTUECKBAUART = "Feststehendes Herzstück, Schienenstahl"
+INBETRIEB_AB = "2009"
+LATITUDE = 48.5227841
+"LEISTUNGSTONNEN PRO TAG SAP" = "66248"
+LONGITUDE = 9.9468857
+NB = "Ulm Netzbezirk"
+NETZ = "AIM Netz Ulm"
+RADLENKERART = "Stützbock"
+REGION = "Südwest"
+RICHTUNGSKENNZAHL = "2"
+SCHIENENFORM = "60 E2-40"
+SCHWELLENART = "Betonschwellen"
+SCHWELLE_IST = "Beton"
+SEGMENTIERUNGSCLUSTER = "Hohe Auslastung +"
+STAHLSORTE_HZ = "Stahlsorte R 350 HT (alt 1175 N/mm² Kopf"
+STAHLSORTE_RL = "Stahlsorte R 260 (alt 880 N/mm²)"
+STAHLSORTE_SI = "Stahlsorte R 260 (alt 880 N/mm²)"
+STAHLSORTE_ZV = "Stahlsorte R 350 HT (alt 1175 N/mm² Kopf"
+STANDORTART = "Anl.i.örtl.Bereich der Bf, Knotenbf und"
+STATUS = "ANGL"
+STRECKENNUMMER = "4700"
+S_BAUTEIL = "Weiche m. Klinken (Siemens Schweiz) SpV"
+TP_TEXT = "WE019 |IBWR-60-0500-1:12-Witec-Beton"
+'TP_VOLL = "TWS----WK-----19OEWR-"
+TP_VOLL = "TWS~--~--WK~-----19OEWR-"
+VON_KM = "  76,2"
+VON_M = "97"
+VZUL = "110"
+VZUL_ABZW = "60"
+WEICHENART = "einfache Weiche rechts"
+WEICHENHALBMESSER = "500"
+WEICHENNEIGUNG = "1 : 12        "
+ZUNGENVORRICHTUNGSART = "Witec"
+valid_from = "19700101";
+
+'==========================================================
+' weather_info
+'==============
+
+** $title()weather_info
+
+***: $title()air_temperature_5cm
+----
+resolution = "nan"
+resolution_unit = "unknown"
+start_time = "unknown"
+station_altitude = "nan"
+station_id = "unknown"
+station_latitude = "nan"
+station_longitude = "nan"
+unit = "unknown";
+
+***: $title()precipitation
+----
+resolution = 60
+resolution_unit = "minutes"
+start_time = "2024-05-15T00:00:00.000000Z"
+station_altitude = 593.0
+station_id = "15444"
+station_latitude = 48.4418
+station_longitude = 9.9216
+unit = "mm";
+
+***: $title()precipitation_radar
+----
+pixel_latitude = "nan"
+pixel_longitude = "nan"
+resolution = "nan"
+resolution_unit = "unknown"
+start_time = "unknown"
+unit = "unknown";
+
+***: $title()precipitation_radar_type
+----
+pixel_latitude = "nan"
+pixel_longitude = "nan"
+resolution = "nan"
+resolution_unit = "unknown"
+start_time = "unknown"
+unit = "unknown";
+
+***: $title()precipitation_type
+----
+resolution = "nan"
+resolution_unit = "unknown"
+start_time = "unknown"
+station_altitude = "nan"
+station_id = "unknown"
+station_latitude = "nan"
+station_longitude = "nan";
+
+***: $title()soil_temperature_10cm
+----
+resolution = "nan"
+resolution_unit = "unknown"
+start_time = "unknown"
+station_altitude = "nan"
+station_id = "unknown"
+station_latitude = "nan"
+station_longitude = "nan"
+unit = "unknown";
+
+***: $title()soil_temperature_5cm
+----
+resolution = "nan"
+resolution_unit = "unknown"
+start_time = "unknown"
+station_altitude = "nan"
+station_id = "unknown"
+station_latitude = "nan"
+station_longitude = "nan"
+unit = "unknown";
+
+@endmindmap

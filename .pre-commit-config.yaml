@@ -1,0 +1,79 @@
+# SPDX-FileCopyrightText: 2025 German Aerospace Center (DLR)
+# SPDX-License-Identifier: CC0-1.0
+#
+# Here are some commonly used pre-commit hooks. You can find more at:
+# <https://github.com/pre-commit/pre-commit-hooks>
+#
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-ast
+      - id: check-builtin-literals
+      - id: check-case-conflict
+      - id: check-executables-have-shebangs
+      - id: check-merge-conflict
+      - id: check-shebang-scripts-are-executable
+      - id: check-toml
+      - id: check-yaml
+        name: check yaml (unsafe)
+        args: [--unsafe]
+        files: ^(\.gitlab-ci\.yml|mkdocs\.yml)$
+      - id: check-yaml
+        exclude: ^(\.gitlab-ci\.yml|mkdocs\.yml)$
+      - id: debug-statements
+      - id: end-of-file-fixer
+        exclude: .+\.puml$
+      - id: trailing-whitespace
+        exclude: .+\.md$
+  - repo: https://gitlab.com/bmares/check-json5
+    rev: v1.0.0
+    hooks:
+      - id: check-json5
+        files: .+\.jsonc?$
+  - repo: https://github.com/fsfe/reuse-tool
+    rev: v5.0.2
+    hooks:
+      - id: reuse
+        name: Check license headers (REUSE)
+  - repo: https://github.com/python-jsonschema/check-jsonschema
+    rev: 0.33.0
+    hooks:
+      - id: check-gitlab-ci
+      # - id: check-github-workflows
+      # - id: check-github-actions
+      # - id: check-dependabot
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.15.0
+    hooks:
+      - id: pyupgrade
+        name: Upgrade common mistakes
+        args: [--py310-plus]
+  # - repo: https://github.com/davidanson/markdownlint-cli2
+  #   rev: v0.17.0
+  #   hooks:
+  #   - id: markdownlint-cli2
+  # - repo: https://github.com/charliermarsh/ruff-pre-commit
+  #   rev: v0.11.13
+  #   hooks:
+  #     - id: ruff
+  #       name: Linting Python code (ruff)
+  #       args: [--fix, --exit-non-zero-on-fix]
+  # - repo: https://github.com/pre-commit/mirrors-mypy
+  #   rev: v1.16.0
+  #   hooks:
+  #     - id: mypy
+  #       name: check static typechecking (mypy)
+  #       #exclude: ^tests/
+  # - repo: https://github.com/codespell-project/codespell
+  #   rev: v2.2.6
+  #   hooks:
+  #     - id: codespell
+  #       name: Fixing common spelling mistakes
+  #       args:
+  #         - --write-changes
+  - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
+    rev: v2.12.0
+    hooks:
+      - id: pretty-format-yaml
+        args: [--autofix, --indent, '2', --offset, '2']

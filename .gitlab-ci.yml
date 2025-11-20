@@ -1,0 +1,208 @@
+# SPDX-FileCopyrightText: 2025 German Aerospace Center (DLR)
+# SPDX-License-Identifier: CC0-1.0
+#
+stages:
+  - build
+  - linter
+  - test
+  - doc
+  - deploy
+
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+  FF_USE_FASTZIP: 'true'
+  ARTIFACT_COMPRESSION_LEVEL: fast
+  CACHE_COMPRESSION_LEVEL: fast
+  DOCKER_DRIVER: overlay2
+  PIP_CACHE_DIR: $CI_PROJECT_DIR/.cache/pip
+  PYTHON_VERSION: '3.10'
+
+cache:
+  key: ${CI_COMMIT_REF_NAME}
+  paths:
+    - $PIP_CACHE_DIR/
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+    - when: always
+
+.python_settings_template: &python_settings
+  image: python:${PYTHON_VERSION}-slim
+  needs: [build]  # wait for build to reuse pip cache
+  before_script:
+    - apt-get update
+    - apt-get install -y git
+    - pip install virtualenv        #
+    - virtualenv .venv              # optional
+    - source .venv/bin/activate     #
+    - python -m pip install -U pip  #
+    - pip install -U --extra-index-url https://download.pytorch.org/whl/cpu -e ".[all]"
+  cache:
+    key: python-${PYTHON_VERSION}
+    paths:
+      - $PIP_CACHE_DIR/${PYTHON_VERSION}
+    policy: pull
+
+
+# ##  INCLUDE THE DEFAULT GITLAB CI JOBS  #####################################
+
+# https://gitlab.com/gitlab-org/gitlab/-/tree/master/lib/gitlab/ci/templates
+include:
+  - template: Code-Quality.gitlab-ci.yml
+  - remote: https://gitlab.com/yesolutions/gitlab-ci-templates/raw/main/templates/pre-commit-autofix.yaml
+
+
+# ##  BUILD PROJECT AND CACHE  ################################################
+
+build:
+  <<: *python_settings
+  stage: build
+  needs: []
+  script:
+    - python --version
+    - which python
+    - pip show slki
+  cache:
+    key: python-${PYTHON_VERSION}
+    paths:
+      - $PIP_CACHE_DIR/${PYTHON_VERSION}
+    policy: pull-push
+
+
+# ##  LINTER AND STATIC CHECKS  ###############################################
+
+code_quality:
+  stage: linter
+
+pre-commit:
+  image: ghcr.io/juhannc/pre-commit:3.10-slim
+  stage: linter
+  needs: []
+  variables:
+    PRE_COMMIT_HOME: ${CI_PROJECT_DIR}/.cache/pre-commit
+  before_script:
+    - pip install --upgrade pip pre-commit
+  script:
+    - pre-commit run --all-files
+  cache:
+    key: pre-commit
+    paths:
+      - .cache/pre-commit
+
+ruff-formatter:
+  <<: *python_settings
+  stage: linter
+  script:
+    - python -m ruff format --diff slki scripts
+
+ruff-linter:
+  <<: *python_settings
+  stage: linter
+  script:
+    - python -m ruff check --output-format=gitlab slki scripts > code-quality-report.json
+  artifacts:
+    when: always
+    reports:
+      codequality: $CI_PROJECT_DIR/code-quality-report.json
+
+mypy:
+  <<: *python_settings
+  stage: linter
+  script:
+    # generate report
+    - pip install -U mypy-gitlab-code-quality
+    - python -m mypy --output=json slki > mypy-out.json || true
+    - mypy-gitlab-code-quality < mypy-out.json > codequality.json
+    # log to console and return correct error code
+    - python -m mypy slki
+  artifacts:
+    when: always
+    reports:
+      codequality: codequality.json
+
+shellcheck:
+  image: koalaman/shellcheck-alpine:stable
+  stage: linter
+  needs: []
+  rules:
+    - exists:
+        - scripts/**/*.sh
+  before_script:
+    - apk add bash
+  script:
+    - find scripts -type f -name "*.sh" -exec shellcheck --external-sources --shell bash --source-path scripts {} +
+
+doc:
+  image:
+    name: davidanson/markdownlint-cli2
+    entrypoint: [/bin/sh, -c]
+  stage: linter
+  needs: []
+  before_script:
+    - npm install markdownlint-cli2-formatter-codequality
+  script:
+    - sed -i -r 's|// (\[ "markdownlint-cli2-formatter-codequality" \],)|\1|' .markdownlint-cli2.jsonc
+    - markdownlint-cli2 "./docs/**/*.md" "./README.md"
+  artifacts:
+    when: always
+    reports:
+      codequality: markdownlint-cli2-codequality.json
+
+license:
+  <<: *python_settings
+  stage: linter
+  script:
+    - python -m licensecheck
+    - python -m reuse lint
+
+vulnerability:
+  image: python:${PYTHON_VERSION}-slim
+  stage: linter
+  needs: [build]  # wait for build to reuse pip cache
+  rules:
+    - if: $CI_PIPELINE_SOURCE != "schedule"
+      when: always
+  before_script:
+    - apt-get update
+    - apt-get install -y git
+    - pip install -U "tox~=4.26.0"
+  script:
+    - python -m tox --recreate -e vulnerability
+  cache:
+    key: python-${PYTHON_VERSION}
+    paths:
+      - $PIP_CACHE_DIR/${PYTHON_VERSION}
+    policy: pull
+
+
+# ##  DOCUMENTATION  ##########################################################
+
+documentation:
+  <<: *python_settings
+  stage: doc
+  variables:
+    DEPLOY: true
+  script:
+    - python -m mkdocs build
+  artifacts:
+    paths:
+      - site
+
+
+# ##  DEPLOY  #################################################################
+
+pages:
+  image: alpine
+  stage: deploy
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  before_script:
+    - apk add tree
+  script:
+    - mv site public
+    - tree public
+  artifacts:
+    paths:
+      - public

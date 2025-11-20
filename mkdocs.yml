@@ -1,0 +1,134 @@
+# SPDX-FileCopyrightText: 2025 German Aerospace Center (DLR)
+# SPDX-License-Identifier: CC0-1.0
+#
+# yaml-language-server: $schema=https://squidfunk.github.io/mkdocs-material/schema.json
+
+site_name: Second Level KI in Weichen
+
+repo_name: slki
+repo_url: https://github.com/DLR-KI/slki
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  custom_dir: docs/.overrides
+  features:
+    - content.action.edit
+    - content.code.annotate
+    - content.code.copy
+    - content.tabs.link
+    - navigation.tabs
+    - navigation.sections
+    #- navigation.expand
+    - navigation.path
+    - navigation.indexes
+    - navigation.top
+    - search.highlight
+    - search.suggest
+  language: en
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+      primary: teal
+      accent: deep purple
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+      primary: teal
+      accent: blue
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.blocks.details:
+  #- pymdownx.blocks.tab:
+  #    alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.mark
+  - pymdownx.snippets
+  - pymdownx.superfences
+
+plugins:
+  - search
+  # - autorefs
+  - api-autonav:
+      # https://github.com/tlambert03/mkdocs-api-autonav?tab=readme-ov-file#configuration
+      modules: [slki]
+      exclude_private: true
+  - mkdocstrings:
+      enabled: !ENV [MKDOCSTRINGS_ENABLED, true]
+      handlers:
+        python:
+          inventories:
+            - url: https://docs.python.org/3/objects.inv
+              domains: [std, py]
+            - https://typing-extensions.readthedocs.io/en/latest/objects.inv
+          options:
+            # https://mkdocstrings.github.io/python/usage/configuration/general/
+            # general
+            backlinks: tree
+            show_inheritance_diagram: true
+            # headings
+            heading_level: 2
+            parameter_headings: true
+            show_root_heading: true
+            show_category_heading: true
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
+            # members
+            summary: true
+            # docstring
+            #docstring_style: google
+            #docstring_section_style: table
+            show_if_no_docstring: true
+            # signatures
+            line_length: 80
+            modernize_annotations: true
+            show_signature_annotations: true
+            separate_signature: true
+            show_overloads: true
+            signature_crossrefs: true
+  - minify:
+      minify_html: !ENV [DEPLOY, false]
+      htmlmin_opts:
+        remove_comments: true
+
+extra:
+  social:
+    - icon: dlr-logo
+      link: https://www.dlr.de/en
+    - icon: dlr-ki
+      link: https://www.dlr.de/en/ki
+    - icon: fontawesome/brands/square-github
+      link: https://github.com/DLR-KI/slki
+
+extra_javascript:
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js
+  - javascripts/katex.js
+
+extra_css:
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css
+  - styles/style.css
+
+copyright: |
+  &copy; 2025
+  <a href="https://www.dlr.de/en/ki/about-us/departments/algorithms-hybrid-solutions" target="_blank" rel="noopener">
+    DLR KI ALG
+  </a>

@@ -1,0 +1,5 @@
+Copyright (C) German Aerospace Center (DLR) - All Rights Reserved
+Proprietary, reuse prohibited
+
+The DLR logo and its components may not be used by persons who are not DLR employees or who have not obtained permission from DLR to use it beforehand.
+If you are interested in using a trademark you have to ask the owner of the trademark rights separately for permission of use.

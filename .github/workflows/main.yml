@@ -1,0 +1,187 @@
+# SPDX-FileCopyrightText: 2025 German Aerospace Center (DLR)
+# SPDX-License-Identifier: CC0-1.0
+
+name: Main
+
+on:
+  - push
+  - pull_request
+  - workflow_dispatch
+
+jobs:
+
+  # ##  BUILD PROJECT AND CACHE  ################################################
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Free Disk Space (Ubuntu)
+        uses: BRAINSia/free-disk-space@v2
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.10'
+          cache: pip
+      - name: Install dependencies
+        run: pip install -U -e ".[all]"
+
+  # ##  LINTER AND STATIC CHECKS  ###############################################
+
+  pre-commit:
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - name: Free Disk Space (Ubuntu)
+        uses: BRAINSia/free-disk-space@v2
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.10'
+          cache: pip
+      - name: Install dependencies
+        run: pip install -U -e ".[all]"
+      - uses: pre-commit/action@v3.0.1
+
+  ruff-formatter:
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - name: Free Disk Space (Ubuntu)
+        uses: BRAINSia/free-disk-space@v2
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.10'
+          cache: pip
+      - name: Install dependencies
+        run: pip install -U -e ".[all]"
+      - name: Run ruff formatter checks
+        run: python -m ruff format --diff slki
+
+  ruff-linter:
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - name: Free Disk Space (Ubuntu)
+        uses: BRAINSia/free-disk-space@v2
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.10'
+          cache: pip
+      - name: Install dependencies
+        run: pip install -U -e ".[all]"
+      - name: Run ruff linter checks
+        run: python -m ruff check --output-format=github slki
+
+  mypy:
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - name: Free Disk Space (Ubuntu)
+        uses: BRAINSia/free-disk-space@v2
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.10'
+          cache: pip
+      - name: Install dependencies
+        run: pip install -U -e ".[all]"
+      - name: Run mypy checks
+        run: python -m mypy slki
+
+  shellcheck:
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v5
+      - name: Run ShellCheck
+        run: find scripts -type f -name "*.sh" -exec shellcheck --external-sources --shell bash --source-path scripts {} +
+
+  doc:
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: DavidAnson/markdownlint-cli2-action@v20
+        with:
+          globs: |
+            README.md
+            docs/**/*.md
+
+  license:
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: pip install -U licensecheck reuse
+      - name: License check
+        run: python -m licensecheck
+      - name: Reuse check
+        run: python -m reuse lint
+
+  vulnerability:
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - name: Free Disk Space (Ubuntu)
+        uses: BRAINSia/free-disk-space@v2
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.10'
+          cache: pip
+      - name: Install dependencies
+        run: pip install -U tox~=4.26.0
+      - name: Vulnerability check
+        run: python -m tox --recreate -e vulnerability
+
+  # ##  DOCUMENTATION  ##########################################################
+
+  documentation:
+    runs-on: ubuntu-latest
+    needs: [build, pre-commit, ruff-formatter, ruff-linter, mypy, shellcheck, doc, license, vulnerability]
+    steps:
+      - name: Free Disk Space (Ubuntu)
+        uses: BRAINSia/free-disk-space@v2
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.10'
+          cache: pip
+      - name: Install dependencies
+        run: pip install -U -e ".[all]"
+      - name: Build documentation (GitHub Pages)
+        env:
+          DEPLOY: true
+        run: python -m mkdocs build
+      - name: Fix permissions
+        run: |
+          chmod -c -R +rX "site/" | while read line; do
+            echo "::warning title=Invalid file permissions automatically fixed::$line"
+          done
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: site
+
+  # ##  DEPLOY  #################################################################
+
+  pages:
+    if: ${{ contains(github.ref, 'main') || startsWith(github.ref, 'refs/tags/v') }}
+    needs: [documentation]
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

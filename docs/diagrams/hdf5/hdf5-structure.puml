@@ -1,0 +1,36 @@
+' SPDX-FileCopyrightText: 2025 German Aerospace Center (DLR)
+' SPDX-License-Identifier: CC-BY-NC-4.0
+'
+@startuml HDF5 database structure overview
+title
+  HDF
+  |_ su_data
+    ' 359779080941426
+    |_ <sensor-id-01>
+      ' 20240516T130616Z
+      |_ <timestamp>
+        |_ su_acceleration_data
+          |_ adxl373-sh
+          |_ adxl373-sm
+          |_ kionix-sh
+          |_ kionix-sm
+        |_ su_humidity_data
+          |_ hdc2021-sm
+        |_ su_temperature_data
+          |_ ad7814-sh
+          |_ hdc2021-sm
+      |_ <math>$vdots</math>
+    |_ <sensor-id-02>
+      |_ <math>$vdots</math>
+  |_ switch_list_infos
+    |_ switch_list_info_19700101
+  |_ weather_info
+    |_ air_temperature_5cm
+    |_ precipitation
+    |_ precipitation_radar
+    |_ precipitation_radar_type
+    |_ precipitation_type
+    |_ soil_temperature_10cm
+    |_ soil_temperature_5cm
+end title
+@enduml

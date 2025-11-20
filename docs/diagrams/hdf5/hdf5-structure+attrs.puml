@@ -1,0 +1,310 @@
+' SPDX-FileCopyrightText: 2025 German Aerospace Center (DLR)
+' SPDX-License-Identifier: CC-BY-NC-4.0
+'
+@startmindmap HDF5 database structure
+
+title HDF5 database structure
+
+
+'==============================================================================
+' style
+'=======
+
+<style>
+node {
+  BackgroundColor white
+  Font monospaced
+  FontColor gray
+  FontSize 12
+  LineThickness 1.0
+  RoundCorner 0
+
+  .frameless {
+    LineThickness 0
+    LineStyle 0
+  }
+}
+
+rootNode {
+  BackgroundColor lightgray
+  Font normal
+  FontColor black
+  FontSize 16
+  FontStyle bold
+}
+</style>
+
+
+'==============================================================================
+' functions
+'===========
+
+!function $title()
+  !return "<color: black><size:14><b><font:normal>"
+!endfunction
+
+
+'==============================================================================
+' diagram
+'=========
+
+* HDF5
+
+'==========================================================
+' su_data
+'===================
+
+** $title()su_data
+
+***: $title()<sensor-id-01>
+----
+exact_position_pm: string
+exact_position_se: string
+exact_position_sh: string
+exact_position_sm: string
+installation_date: string
+mounting_pm: string
+mounting_se: string
+mounting_sh: string
+mounting_sm: string
+placement: "frog" | "points"
+position_sh: string
+su_geocoordinate_system: string
+su_latitude: float
+su_longitude: float;
+
+****: $title()<timestamp>
+----
+imei: <sensor-id-01>;
+
+*****: $title()su_acceleration_data
+----
+su_seq_end: string
+su_seq_start: string;
+
+******: $title()adxl373-sh
+----
+bit: int
+counts_to_g_transform: np.array
+includes_gravity: int
+is_analog: int
+model: string
+options: dict{
+  "wakeup threshold": int | float
+}
+qlv_transform: np.array
+range_in_g: int | float
+sample_rate_in_hz: float
+seq_end: string
+seq_start: string;
+
+******: $title()adxl373-sm
+----
+bit: int
+counts_to_g_transform: np.array
+includes_gravity: int
+is_analog: int
+model: string
+options: dict{
+  "wakeup threshold": int | float
+}
+qlv_transform: np.array
+range_in_g: int | float
+sample_rate_in_hz: float
+seq_end: string
+seq_start: string;
+
+******: $title()kionix-sh
+----
+bit: int
+counts_to_g_transform: np.array
+includes_gravity: int
+is_analog: int
+model: string
+options: dict{
+  "wakeup threshold": int | float
+  "wakeup odr": string
+  "wakeup count": int
+}
+qlv_transform: np.array
+range_in_g: int | float
+sample_rate_in_hz: float
+seq_end: string
+seq_start: string;
+
+******: $title()kionix-sm
+----
+bit: int
+counts_to_g_transform: np.array
+includes_gravity: int
+is_analog: int
+model: string
+options: dict{
+  "wakeup threshold": int | float
+  "wakeup odr": string
+  "wakeup count": int
+}
+qlv_transform: np.array
+range_in_g: int | float
+sample_rate_in_hz: float
+seq_end: string
+seq_start: string;
+
+***** $title()su_humidity_data
+
+******: $title()hdc2021-sm
+----
+model: string
+options: dict{}
+unit: string;
+
+***** $title()su_temperature_data
+
+******: $title()ad7814-sh
+----
+model: string
+options: dict{}
+unit: string;
+
+******: $title()hdc2021-sm
+----
+model: string
+options: dict{}
+unit: string;
+
+**** $title()<math>$vdots</math><<frameless>>
+
+***: $title()<sensor-id-02>
+----
+<math>$vdots</math>;
+
+**** $title()<math>$vdots</math><<frameless>>
+
+
+'==========================================================
+' switch_list_infos
+'===================
+
+** $title()switch_list_infos
+
+***: $title()switch_list_info_19700101
+----
+"ALTER IN JAHREN": string
+BAUFORM: string
+BEFESTIGUNG: string
+BWK: string
+GERADE_BOGENWEICHE: string
+HERZSTUECKBAUART: string
+INBETRIEB_AB: string
+LATITUDE: float
+"LEISTUNGSTONNEN PRO TAG SAP": string
+LONGITUDE: float
+NB: string
+NETZ: string
+RADLENKERART: string
+REGION: string
+RICHTUNGSKENNZAHL: string
+SCHIENENFORM: string
+SCHWELLENART: string
+SCHWELLE_IST: string
+SEGMENTIERUNGSCLUSTER: string
+STAHLSORTE_HZ: string
+STAHLSORTE_RL: string
+STAHLSORTE_SI: string
+STAHLSORTE_ZV: string
+STANDORTART: string
+STATUS: string
+STRECKENNUMMER: string
+S_BAUTEIL: string
+TP_TEXT: string
+TP_VOLL: string
+VON_KM: string
+VON_M: string
+VZUL: string
+VZUL_ABZW: string
+WEICHENART: string
+WEICHENHALBMESSER: string
+WEICHENNEIGUNG: string
+ZUNGENVORRICHTUNGSART: string
+valid_from: string;
+
+
+'==========================================================
+' weather_info
+'==============
+
+** $title()weather_info
+
+***: $title()air_temperature_5cm
+----
+resolution: int | float
+resolution_unit: string
+start_time: string
+station_altitude: float
+station_id: string
+station_latitude: float
+station_longitude: float
+unit: string;
+
+***: $title()precipitation
+----
+resolution: int | float
+resolution_unit: string
+start_time: string
+station_altitude: float
+station_id: string
+station_latitude: float
+station_longitude: float
+unit: string;
+
+***: $title()precipitation_radar
+----
+pixel_latitude: float
+pixel_longitude: float
+resolution: int | float
+resolution_unit: string
+start_time: string
+unit: string;
+
+***: $title()precipitation_radar_type
+----
+pixel_latitude: float
+pixel_longitude: float
+resolution: int | float
+resolution_unit: string
+start_time: string
+unit: string;
+
+***: $title()precipitation_type
+----
+resolution: int | float
+resolution_unit: string
+start_time: string
+station_altitude: float
+station_id: string
+station_latitude: float
+station_longitude: float;
+
+***: $title()soil_temperature_10cm
+----
+resolution: int | float
+resolution_unit: string
+start_time: string
+station_altitude: float
+station_id: string
+station_latitude: float
+station_longitude: float
+unit: string;
+
+***: $title()soil_temperature_5cm
+----
+resolution: int | float
+resolution_unit: string
+start_time: string
+station_altitude: float
+station_id: string
+station_latitude: float
+station_longitude: float
+unit: string;
+
+@endmindmap
