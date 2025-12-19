@@ -39,6 +39,10 @@ authors:
     alias: DLR
     website: 'https://www.dlr.de/en'
     tel: '+49 2203 6010'
+# identifiers:
+#   - type: doi
+#     value: 10.5281/zenodo.XXXXXXXX
+#     description: The Zenodo link of the work.
 repository-code: 'https://dlr-ki.github.io/slki'
 url: 'https://github.com/DLR-KI/slki'
 abstract: >-
@@ -58,6 +62,5 @@ keywords:
   - time-series
   - public transport
   - train
-# commit: 7c84121c656b3e9d66b074dc2f91d9c6f14202e8 (commit ID from the release commit)
-# version: 0.1.0
-# date-released: '1997-01-01'
+version: 1.0.0
+date-released: '2025-11-21'
