@@ -39,10 +39,10 @@ authors:
     alias: DLR
     website: 'https://www.dlr.de/en'
     tel: '+49 2203 6010'
-# identifiers:
-#   - type: doi
-#     value: 10.5281/zenodo.XXXXXXXX
-#     description: The Zenodo link of the work.
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.17985938
+    description: The Zenodo link of the work.
 repository-code: 'https://dlr-ki.github.io/slki'
 url: 'https://github.com/DLR-KI/slki'
 abstract: >-
